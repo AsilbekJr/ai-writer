@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from './components/layout/dashboard-layout';
-
+console.log(import.meta.env.VITE_GEMINI_AI_KEY);
 const router = createBrowserRouter([
   {
     path: '/',
