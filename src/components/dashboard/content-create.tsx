@@ -4,6 +4,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { Loader2Icon } from 'lucide-react';
+import { generateArticle } from '@/utilis/gemini';
 
 export default function ContentCreate() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,10 +13,12 @@ export default function ContentCreate() {
     description: '',
   });
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
-    console.log(form);
+    const result = await generateArticle(form.title, form.description);
+    console.log(result);
+    setIsLoading(false);
   };
 
   const handleChange = (
@@ -36,7 +39,7 @@ export default function ContentCreate() {
             type="text"
             id="title"
             name="title"
-            placeholder="Email"
+            placeholder="Title"
             disabled={isLoading}
           />
         </div>
