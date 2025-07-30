@@ -6,7 +6,7 @@ export default function DashboardLayout() {
   return (
     <div className="h-screen  flex">
       <Sidebar />
-      <div className="w-full overflow-hidden">
+      <div className="w-full ">
         <Navbar />
         <div className="p-8">
           <Outlet />
