@@ -10,11 +10,13 @@ export default function DashboardHome() {
   const { generatingContent, setGeneratingContent } = useAppContext();
 
   const handleSubmit = async (params: ContentCreateRequestParam) => {
-    setGeneratingContent(true);
     const { title, description } = params;
-    const result = await generateArticle(title, description);
+    const result = await generateArticle(
+      title,
+      description,
+      setGeneratingContent
+    );
     setContent(result);
-    setGeneratingContent(false);
   };
 
   return (
