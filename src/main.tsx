@@ -4,8 +4,8 @@ import './index.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import DashboardLayout from './components/layout/dashboard-layout';
 import DashboardHome from './pages/dashboard-home';
+import { Toaster } from 'react-hot-toast';
 import { AppContextProvider } from './contexts/app.context';
-console.log(import.meta.env.VITE_GEMINI_AI_KEY);
 const router = createBrowserRouter([
   {
     path: '/',
@@ -33,6 +33,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Toaster />
     <AppContextProvider>
       <RouterProvider router={router} />
     </AppContextProvider>
