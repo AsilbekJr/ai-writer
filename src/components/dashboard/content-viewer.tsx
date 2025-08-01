@@ -23,7 +23,7 @@ export default function ContentViewer({ content }: ContentViewerProps) {
 
   return (
     <Card>
-      <CardContent className="p-4">
+      <CardContent className="p-4 md:p-6 lg:p-8">
         <p className="text-1xl">
           {' '}
           <Markdown>{content}</Markdown>{' '}

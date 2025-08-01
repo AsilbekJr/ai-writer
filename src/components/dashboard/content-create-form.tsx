@@ -1,4 +1,3 @@
-import { useState, type FormEvent } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 // import { Label } from '../ui/label';
@@ -94,7 +93,7 @@ export default function ContentCreate({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-4 mt-4"
+        className="space-y-2 md:space-y-4 md:mt-4 mt-2"
       >
         <FormField
           disabled={isLoading}
