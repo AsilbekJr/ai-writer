@@ -3,6 +3,7 @@ import PromptHistory from './prompt-history';
 import type { TPromptHistory } from '@/shared/types/propmt-history.type';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { Loader2 } from 'lucide-react';
+import clsx from 'clsx';
 
 const mockItems: TPromptHistory[] = [
   {
@@ -34,9 +35,14 @@ const mockItems: TPromptHistory[] = [
 ];
 
 export default function Sidebar() {
-  const { generatingContent } = useAppContext();
+  const { generatingContent, sidebarOpen } = useAppContext();
   return (
-    <nav className="h-screen w-80 border-r p-4 ">
+    <nav
+      className={clsx(
+        'transition-all duration-500 h-screen overflow-x-hidden md:w-80 md:border-r md:p-4',
+        sidebarOpen ? 'w-1/2 border-r p-2' : 'w-0'
+      )}
+    >
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">AI Writer</h1>
         <button>
