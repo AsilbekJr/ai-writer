@@ -1,21 +1,17 @@
 import ContentCreate from '@/components/dashboard/content-create-form';
 import ContentViewer from '@/components/dashboard/content-viewer';
-import { useAppContext } from '@/contexts/app.context';
-import type { ContentCreateRequestParam } from '@/shared/types/content-create-request-param';
+import { useContentContext } from '@/contexts/content.context';
+import type { TContentCreateRequestParam } from '@/shared/types/content-create-request-param';
 import { generateArticle } from '@/utilis/gemini';
 import { useState } from 'react';
 
 export default function DashboardHome() {
   const [content, setContent] = useState<string | null>(null);
-  const { generatingContent, setGeneratingContent } = useAppContext();
+  const { generateContent, generatingContent } = useContentContext();
 
-  const handleSubmit = async (params: ContentCreateRequestParam) => {
-    const { title, description } = params;
-    const result = await generateArticle(
-      title,
-      description,
-      setGeneratingContent
-    );
+  const handleSubmit = async (params: TContentCreateRequestParam) => {
+    const result = await generateContent(params);
+
     setContent(result);
   };
 

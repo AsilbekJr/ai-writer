@@ -13,13 +13,13 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { z } from 'zod';
-import type { ContentCreateRequestParam } from '@/shared/types/content-create-request-param';
+import type { TContentCreateRequestParam } from '@/shared/types/content-create-request-param';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 type ContentCreateFormProps = {
   isLoading: boolean;
-  onSubmit: (params: ContentCreateRequestParam) => void;
+  onSubmit: (params: TContentCreateRequestParam) => void;
 };
 const formSchema = z.object({
   title: z
