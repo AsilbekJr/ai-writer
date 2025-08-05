@@ -1,43 +1,46 @@
 import { useAppContext } from '@/contexts/app.context';
 import PromptHistory from './prompt-history';
-import type { TPromptHistory } from '@/shared/types/propmt-history.type';
+// import type { TPromptHistory } from '@/shared/types/propmt-history.type';
 import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { Loader2 } from 'lucide-react';
 import clsx from 'clsx';
 import { useContentContext } from '@/contexts/content.context';
 
-const mockItems: TPromptHistory[] = [
-  {
-    date: 'Today',
-    links: [
-      {
-        title: 'Prompt 1',
-        url: 'dashboard/propmt/1',
-      },
-      {
-        title: 'Prompt 2',
-        url: 'dashboard/propmt/2',
-      },
-    ],
-  },
-  {
-    date: 'Yesterday',
-    links: [
-      {
-        title: 'Prompt 1',
-        url: 'dashboard/propmt/1',
-      },
-      {
-        title: 'Prompt 2',
-        url: 'dashboard/propmt/2',
-      },
-    ],
-  },
-];
+// const mockItems: TPromptHistory[] = [
+//   {
+//     date: 'Today',
+//     links: [
+//       {
+//         title: 'Prompt 1',
+//         url: 'dashboard/propmt/1',
+//       },
+//       {
+//         title: 'Prompt 2',
+//         url: 'dashboard/propmt/2',
+//       },
+//     ],
+//   },
+//   {
+//     date: 'Yesterday',
+//     links: [
+//       {
+//         title: 'Prompt 1',
+//         url: 'dashboard/propmt/1',
+//       },
+//       {
+//         title: 'Prompt 2',
+//         url: 'dashboard/propmt/2',
+//       },
+//     ],
+//   },
+// ];
 
 export default function Sidebar() {
   const { sidebarOpen } = useAppContext();
-  const { generatingContent } = useContentContext();
+  const { generatingContent, getPromtHistory } = useContentContext();
+
+  const historyItems = getPromtHistory();
+
   return (
     <nav
       className={clsx(
@@ -55,7 +58,7 @@ export default function Sidebar() {
           )}
         </button>
       </div>
-      <PromptHistory items={mockItems} />
+      <PromptHistory items={historyItems} />
     </nav>
   );
 }
