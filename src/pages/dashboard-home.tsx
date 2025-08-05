@@ -2,7 +2,6 @@ import ContentCreate from '@/components/dashboard/content-create-form';
 import ContentViewer from '@/components/dashboard/content-viewer';
 import { useContentContext } from '@/contexts/content.context';
 import type { TContentCreateRequestParam } from '@/shared/types/content-create-request-param';
-import { generateArticle } from '@/utilis/gemini';
 import { useState } from 'react';
 
 export default function DashboardHome() {
