@@ -8,7 +8,6 @@ import { Button } from '../ui/button';
 import {
   ShareIcon,
   ClipboardDocumentIcon,
-  StarIcon,
   PencilIcon,
 } from '@heroicons/react/24/solid';
 import { toast } from 'react-hot-toast';
@@ -41,6 +40,20 @@ export default function ContentViewer({
     }
   };
 
+  const handleShare = async () => {
+    try {
+      const { origin } = window.location;
+      console.log(origin);
+      await navigator.clipboard.writeText(
+        `${origin}/share/${generatedContent.id}`
+      );
+      toast.success('Ulashish havolasidan nusxa olindi');
+    } catch (error) {
+      console.error('Nusxa olinmadi', error);
+      toast.error('Nusxa olinmadi (');
+    }
+  };
+
   const handleEdit = () => {
     setMode(Mode.edit);
   };
@@ -60,7 +73,6 @@ export default function ContentViewer({
     <Card>
       <CardContent className="p-4 md:p-6 lg:p-8">
         <div className="text-1xl">
-          {' '}
           <MDEditor.Markdown
             source={editedContent}
             style={{ whiteSpace: 'pre-wrap' }}
@@ -80,7 +92,7 @@ export default function ContentViewer({
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant={'outline'}>
+            <Button variant={'outline'} onClick={handleShare}>
               <ShareIcon className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
