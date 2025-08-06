@@ -4,4 +4,5 @@ export type TGeneratedContent = {
   content: string;
   description: string;
   createdAt: Date;
+  rate?: number;
 };

@@ -14,7 +14,11 @@ import {
 import { toast } from 'react-hot-toast';
 import { useState } from 'react';
 import type { TGeneratedContent } from '@/shared/types/generating-content';
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 enum Mode {
   view,
   edit,
@@ -64,18 +68,36 @@ export default function ContentViewer({
         </div>
       </CardContent>
       <CardFooter className="flex gap-2 justify-end">
-        <Button variant={'outline'} onClick={handleEdit}>
-          <PencilIcon className="h-4 w-4" />
-        </Button>
-        <Button variant={'outline'}>
-          <ShareIcon className="h-4 w-4" />
-        </Button>
-        <Button variant={'outline'} onClick={handleCopy}>
-          <ClipboardDocumentIcon className="w-4 h-4" />
-        </Button>
-        <Button variant={'outline'}>
-          <StarIcon />
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant={'outline'} onClick={handleEdit}>
+              <PencilIcon className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Edit Content</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant={'outline'}>
+              <ShareIcon className="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Share Content</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant={'outline'} onClick={handleCopy}>
+              <ClipboardDocumentIcon className="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Copy Content</p>
+          </TooltipContent>
+        </Tooltip>
       </CardFooter>
     </Card>
   ) : (
