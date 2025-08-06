@@ -1,19 +1,35 @@
 type ContentViewerProps = {
-  content: string;
+  generatedContent: TGeneratedContent;
+  onSave: (generatedContent: TGeneratedContent) => void;
 };
+import MDEditor from '@uiw/react-md-editor';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import Markdown from 'react-markdown';
 import { Button } from '../ui/button';
 import {
   ShareIcon,
   ClipboardDocumentIcon,
   StarIcon,
+  PencilIcon,
 } from '@heroicons/react/24/solid';
 import { toast } from 'react-hot-toast';
-export default function ContentViewer({ content }: ContentViewerProps) {
+import { useState } from 'react';
+import type { TGeneratedContent } from '@/shared/types/generating-content';
+
+enum Mode {
+  view,
+  edit,
+}
+export default function ContentViewer({
+  generatedContent,
+  onSave,
+}: ContentViewerProps) {
+  const [editedContent, setEditedContent] = useState<string>(
+    generatedContent.content
+  );
+  const [mode, setMode] = useState<Mode>(Mode.view);
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(content);
+      await navigator.clipboard.writeText(generatedContent.content);
       toast.success('Nusxa olindi');
     } catch (error) {
       console.error('Nusxa olinmadi', error);
@@ -21,15 +37,36 @@ export default function ContentViewer({ content }: ContentViewerProps) {
     }
   };
 
-  return (
+  const handleEdit = () => {
+    setMode(Mode.edit);
+  };
+  const handleContentChange = (value?: string) => {
+    setEditedContent(value || '');
+  };
+
+  const handleCancel = () => {
+    setMode(Mode.view);
+    setEditedContent(generatedContent.content);
+  };
+  const handleSave = () => {
+    onSave({ ...generatedContent, content: editedContent });
+    setMode(Mode.view);
+  };
+  return mode === Mode.view ? (
     <Card>
       <CardContent className="p-4 md:p-6 lg:p-8">
-        <p className="text-1xl">
+        <div className="text-1xl">
           {' '}
-          <Markdown>{content}</Markdown>{' '}
-        </p>
+          <MDEditor.Markdown
+            source={editedContent}
+            style={{ whiteSpace: 'pre-wrap' }}
+          />
+        </div>
       </CardContent>
       <CardFooter className="flex gap-2 justify-end">
+        <Button variant={'outline'} onClick={handleEdit}>
+          <PencilIcon className="h-4 w-4" />
+        </Button>
         <Button variant={'outline'}>
           <ShareIcon className="h-4 w-4" />
         </Button>
@@ -41,5 +78,20 @@ export default function ContentViewer({ content }: ContentViewerProps) {
         </Button>
       </CardFooter>
     </Card>
+  ) : (
+    <div>
+      <MDEditor
+        className="mt-4"
+        height={400}
+        value={editedContent}
+        onChange={handleContentChange}
+      />
+      <div className="mt-4 flex gap-3">
+        <Button onClick={handleSave}>Save</Button>
+        <Button variant={'destructive'} onClick={handleCancel}>
+          Cancel
+        </Button>
+      </div>
+    </div>
   );
 }

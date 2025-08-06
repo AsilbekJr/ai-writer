@@ -21,8 +21,10 @@ interface IContentContext {
   setGeneratingContent: (value: boolean) => void;
   generateContent: (
     params: TContentCreateRequestParam
-  ) => Promise<string | null>;
+  ) => Promise<TGeneratedContent | null>;
   getPromtHistory: () => TPromptHistory[];
+  getContentById: (id: string) => TGeneratedContent;
+  updateById: (id: string, generatedContent: TGeneratedContent) => void;
 }
 
 export const ContentContext = createContext<IContentContext | null>(null);
@@ -46,26 +48,29 @@ const ContentContextProvider: FC<IProps> = ({ children }) => {
   const [contentItems, setContentItems] = useLocalStorage('contentItems', []);
 
   const generateContent = async (params: TContentCreateRequestParam) => {
-    let content = null;
-    getPromtHistory();
+    let generatedContent: TGeneratedContent | null = null;
     setGeneratingContent(true);
     const { title, description } = params;
-    content = await generateArticle(title, description, setGeneratingContent);
+    const content = await generateArticle(
+      title,
+      description,
+      setGeneratingContent
+    );
     // const tomorow = new Date();
 
     // tomorow.setDate(tomorow.getDate() + 1);
     if (content) {
-      const generetedContentItem: TGeneratedContent = {
+      generatedContent = {
         id: uuidv4(),
         title,
         description,
         content,
         createdAt: new Date(),
       };
-      setContentItems([generetedContentItem as never, ...(contentItems || [])]);
+      setContentItems([generatedContent as never, ...(contentItems || [])]);
     }
 
-    return content;
+    return generatedContent;
   };
   const getPromtHistory = (): TPromptHistory[] => {
     if (!contentItems) {
@@ -79,7 +84,7 @@ const ContentContextProvider: FC<IProps> = ({ children }) => {
         }
         prev[date].push({
           title: next.title,
-          url: `dashboard/content/${next.id}`,
+          url: `/dashboard/content/${next.id}`,
         });
         return prev;
       },
@@ -93,6 +98,25 @@ const ContentContextProvider: FC<IProps> = ({ children }) => {
       }));
   };
 
+  const getContentById = (id: string) => {
+    const generatedContent = contentItems?.find((item) => item.id === id);
+
+    if (!generatedContent) {
+      throw new Error('Content not found');
+    }
+    return generatedContent;
+  };
+
+  const updateById = (id: string, generatedContent: TGeneratedContent) => {
+    const updatedContentItems = contentItems?.map((item) => {
+      if (item.id === id) {
+        return generatedContent;
+      }
+      return item;
+    });
+    setContentItems((updatedContentItems as never) || []);
+  };
+
   return (
     <ContentContext.Provider
       value={{
@@ -100,6 +124,8 @@ const ContentContextProvider: FC<IProps> = ({ children }) => {
         setGeneratingContent,
         generateContent,
         getPromtHistory,
+        getContentById,
+        updateById,
       }}
     >
       {children}
