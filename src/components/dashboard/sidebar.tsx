@@ -5,35 +5,7 @@ import { PencilSquareIcon } from '@heroicons/react/24/solid';
 import { Loader2 } from 'lucide-react';
 import clsx from 'clsx';
 import { useContentContext } from '@/contexts/content.context';
-
-// const mockItems: TPromptHistory[] = [
-//   {
-//     date: 'Today',
-//     links: [
-//       {
-//         title: 'Prompt 1',
-//         url: 'dashboard/propmt/1',
-//       },
-//       {
-//         title: 'Prompt 2',
-//         url: 'dashboard/propmt/2',
-//       },
-//     ],
-//   },
-//   {
-//     date: 'Yesterday',
-//     links: [
-//       {
-//         title: 'Prompt 1',
-//         url: 'dashboard/propmt/1',
-//       },
-//       {
-//         title: 'Prompt 2',
-//         url: 'dashboard/propmt/2',
-//       },
-//     ],
-//   },
-// ];
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
   const { sidebarOpen } = useAppContext();
@@ -54,7 +26,9 @@ export default function Sidebar() {
           {generatingContent ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
-            <PencilSquareIcon className="w-6" />
+            <Link to={'/dashboard'}>
+              <PencilSquareIcon className="w-6" />
+            </Link>
           )}
         </button>
       </div>
