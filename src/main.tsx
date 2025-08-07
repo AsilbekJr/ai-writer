@@ -1,7 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 import DashboardLayout from './components/layout/dashboard-layout';
 import DashboardHome from './pages/dashboard-home';
 import { Toaster } from 'react-hot-toast';
@@ -13,6 +17,7 @@ import Share from './pages/share';
 import AuthLayout from './components/layout/auth-layout';
 import Register from './components/auth/register';
 import { AuthProvider } from './contexts/auth.context';
+import Login from './components/auth/login';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -30,6 +35,10 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: <DashboardLayout />,
     children: [
+      {
+        index: true,
+        element: <Navigate to="login" replace />,
+      },
       {
         index: true,
         element: <DashboardHome />,
@@ -53,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
       },
     ],
   },
