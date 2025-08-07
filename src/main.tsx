@@ -18,27 +18,21 @@ import AuthLayout from './components/layout/auth-layout';
 import Register from './components/auth/register';
 import { AuthProvider } from './contexts/auth.context';
 import Login from './components/auth/login';
+import ProtectedRoute from './components/auth/protected-route';
 const router = createBrowserRouter([
   {
     path: '/',
     element: <h1>Hello Home</h1>,
   },
+
   {
-    path: '/login',
-    element: <h1>Login</h1>,
-  },
-  {
-    path: '/register',
-    element: <h1>Register</h1>,
-  },
-  {
-    path: '/dashboard',
-    element: <DashboardLayout />,
+    path: 'dashboard',
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
-      {
-        index: true,
-        element: <Navigate to="login" replace />,
-      },
       {
         index: true,
         element: <DashboardHome />,
@@ -59,6 +53,10 @@ const router = createBrowserRouter([
     path: 'auth',
     element: <AuthLayout />,
     children: [
+      {
+        index: true,
+        element: <Navigate to="login" replace />,
+      },
       {
         path: 'register',
         element: <Register />,

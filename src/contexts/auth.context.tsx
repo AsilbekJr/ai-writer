@@ -5,6 +5,8 @@ import { useLocalStorage } from 'react-use';
 interface IAuthContext {
   registerUser: (login: string, password: string) => void;
   loginUser: (login: string, password: string) => TRegisteredUser;
+  user: TRegisteredUser | null;
+  logoutUser: () => void;
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null);
@@ -25,6 +27,10 @@ interface IProps {
 
 const AuthProvider: FC<IProps> = ({ children }) => {
   const [users, setUsers] = useLocalStorage<TRegisteredUser[]>('users', []);
+  const [user = null, setUser] = useLocalStorage<TRegisteredUser | null>(
+    'user',
+    null
+  );
   const registerUser = (login: string, password: string) => {
     if (users) {
       setUsers([...users, { login, password, createdAt: new Date() }]);
@@ -40,11 +46,16 @@ const AuthProvider: FC<IProps> = ({ children }) => {
     if (user.password !== password) {
       throw new Error('Invalid Password');
     }
+    setUser(user);
     return user;
   };
 
+  const logoutUser = () => {
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ registerUser, loginUser }}>
+    <AuthContext.Provider value={{ registerUser, loginUser, user, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );

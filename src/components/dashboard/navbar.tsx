@@ -9,9 +9,17 @@ import {
 import { Button } from '../ui/button';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { useAppContext } from '@/contexts/app.context';
+import { useAuthContext } from '@/contexts/auth.context';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const { toggleSidebar, sidebarOpen } = useAppContext();
+  const { user, logoutUser } = useAuthContext();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logoutUser();
+    navigate('/auth/login');
+  };
   return (
     <div className="border-b">
       <nav className="flex items-center justify-between px-4 h-16">
@@ -31,11 +39,13 @@ export default function Navbar() {
         </div>
         <div className="p-4">
           <DropdownMenu>
-            <DropdownMenuTrigger>Asilbek</DropdownMenuTrigger>
+            <DropdownMenuTrigger> {user?.login}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>Logout</DropdownMenuLabel>
+              <DropdownMenuLabel onClick={handleLogout}>
+                Logout
+              </DropdownMenuLabel>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
