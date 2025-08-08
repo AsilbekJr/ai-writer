@@ -16,6 +16,7 @@ import type { TContentCreateRequestParam } from '@/shared/types/content-create-r
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Textarea } from '../ui/textarea';
+import { useTranslation } from 'react-i18next';
 
 type ContentCreateFormProps = {
   isLoading: boolean;
@@ -47,6 +48,8 @@ export default function ContentCreate({
     onSubmit(values);
   }
 
+  const { t } = useTranslation('dashboard');
+
   return (
     <Form {...form}>
       <form
@@ -59,13 +62,11 @@ export default function ContentCreate({
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>{t('title')}</FormLabel>
               <FormControl>
                 <Input placeholder="ReactJS" {...field} />
               </FormControl>
-              <FormDescription>
-                Pleace provide a title for your content
-              </FormDescription>
+              <FormDescription>{t('titleHint')}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -76,23 +77,21 @@ export default function ContentCreate({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>{t('description')}</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Write about react js form validation"
+                  placeholder={t('descriptionPlaceholder')}
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Pleace provide a description for your content
-              </FormDescription>
+              <FormDescription>{t('descriptionHint')}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
         <Button disabled={isLoading} type="submit">
           {isLoading && <Loader2Icon className="animate-spin" />}
-          Generate
+          {t('generate')}
         </Button>
       </form>
     </Form>
