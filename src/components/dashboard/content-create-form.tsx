@@ -45,7 +45,14 @@ export default function ContentCreate({
     },
   });
   function handleSubmit(values: z.infer<typeof formSchema>) {
-    onSubmit(values);
+    const random = Math.floor(Math.random() * 2);
+
+    if (random) {
+      throw new Error('Random Error');
+    } else {
+      console.log('Submitted');
+    }
+    // onSubmit(values);
   }
 
   const { t } = useTranslation('dashboard');
