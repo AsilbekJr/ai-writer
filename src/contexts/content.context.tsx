@@ -45,7 +45,10 @@ interface IProps {
 
 const ContentContextProvider: FC<IProps> = ({ children }) => {
   const [generatingContent, setGeneratingContent] = useState(false);
-  const [contentItems, setContentItems] = useLocalStorage('contentItems', []);
+  const [contentItems, setContentItems] = useLocalStorage<TGeneratedContent[]>(
+    'contentItems',
+    []
+  );
 
   const generateContent = async (params: TContentCreateRequestParam) => {
     let generatedContent: TGeneratedContent | null = null;
