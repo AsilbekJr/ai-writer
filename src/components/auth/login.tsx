@@ -20,7 +20,7 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useAuthContext } from '@/contexts/auth.context';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 const formSchema = z.object({
@@ -90,8 +90,11 @@ export default function Login() {
               )}
             />
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col gap-2">
             <Button className="w-full"> Login</Button>
+            <Link to="/auth/register" className="text-center block ">
+              Don't have an account? Register now!
+            </Link>
           </CardFooter>
         </Card>
       </form>
