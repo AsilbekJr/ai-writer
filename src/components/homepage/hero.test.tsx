@@ -28,16 +28,6 @@ describe('Homepage Hero', () => {
     expect(registerButton).toBeInTheDocument();
   });
   it('should render the dashboard link if user is authenticated', () => {
-    vi.spyOn(authContext, 'useAuthContext').mockReturnValue({
-      user: {
-        login: 'login',
-        password: 'password',
-        createdAt: new Date(),
-      },
-      logoutUser: vi.fn(),
-      registerUser: vi.fn(),
-      loginUser: vi.fn(),
-    });
     renderHero({
       login: 'login',
       password: 'password',
